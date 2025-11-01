@@ -22,10 +22,12 @@ def app():
         db.session.remove()
 
     with app.app_context():
+        # db.drop_all()
         db.create_all()
         yield app
 
     with app.app_context():
+        # db.reflect()
         db.drop_all()
 
 
