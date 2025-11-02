@@ -18,6 +18,7 @@ from ..db import db
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .author import Author
+    from .genre import Genre
 
 class Book(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
@@ -25,6 +26,7 @@ class Book(db.Model):
     description: Mapped[str]
     author_id: Mapped[Optional[int]] = mapped_column(ForeignKey("author.id"))
     author: Mapped[Optional["Author"]] = relationship(back_populates="books")
+    genres: Mapped[list["Genre"]] = relationship(secondary="book_genre", back_populates="books")
 
     
     def to_dict(self):
