@@ -47,32 +47,33 @@ class Book(db.Model):
     
     @classmethod
     def from_dict(cls, book_data):
-        # author_id = book_data.get("author_id")
-        # genres = book_data.get("genres", [])
-
-        # new_book = cls(
-        #     title=book_data["title"],
-        #     description=book_data["description"],
-        #     author_id=author_id,
-        #     genres=genres
-        # )
-
-        # return new_book
-
+        
         author_id = book_data.get("author_id")
-        genre_ids = book_data.get("genres", [])
-
-        genres = []
-        for gid in genre_ids:
-            genre = db.session.get(Genre, gid)
-            if genre:
-                genres.append(genre)
+        genres = book_data.get("genres", [])
 
         new_book = cls(
             title=book_data["title"],
             description=book_data["description"],
             author_id=author_id,
+            genres=genres
         )
-        new_book.genres = genres
 
         return new_book
+
+        # author_id = book_data.get("author_id")
+        # genre_ids = book_data.get("genres", [])
+
+        # genres = []
+        # for gid in genre_ids:
+        #     genre = db.session.get(Genre, gid)
+        #     if genre:
+        #         genres.append(genre)
+
+        # new_book = cls(
+        #     title=book_data["title"],
+        #     description=book_data["description"],
+        #     author_id=author_id,
+        # )
+        # new_book.genres = genres
+
+        # return new_book
