@@ -11,10 +11,10 @@ class Genre(db.Model):
     books: Mapped[list["Book"]] = relationship(secondary="book_genre", back_populates="genres")
     
     def to_dict(self):
-        genre_as_dict = {
-            "id": self.id,
-            "name": self.name
-        }
+        genre_as_dict = {}
+        genre_as_dict["id"] = self.id
+        genre_as_dict["name"] = self.name
+
         return genre_as_dict
     
     @classmethod
