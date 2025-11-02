@@ -47,7 +47,14 @@ class Book(db.Model):
     def from_dict(cls, book_data):
         # Use get() to fetch values that could be undefined to avoid raising an error
         author_id = book_data.get("author_id")
-        genres = book_data.get("genres", [])
+        genre_ids = book_data.get("genres", [])
+
+        genres = []
+        for gid in genre_ids:
+            genre = db.session.get(Genre, gid)
+            if genre:
+                genres.append(genre)
+
 
         new_book = cls(
             title=book_data["title"],
