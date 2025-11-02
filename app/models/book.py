@@ -27,7 +27,6 @@ class Book(db.Model):
     author_id: Mapped[Optional[int]] = mapped_column(ForeignKey("author.id"))
     author: Mapped[Optional["Author"]] = relationship(back_populates="books")
     genres: Mapped[list["Genre"]] = relationship(secondary="book_genre", back_populates="books")
-
     
     def to_dict(self):
         book_as_dict = {}
@@ -47,14 +46,7 @@ class Book(db.Model):
     def from_dict(cls, book_data):
         # Use get() to fetch values that could be undefined to avoid raising an error
         author_id = book_data.get("author_id")
-        genre_ids = book_data.get("genres", [])
-
-        genres = []
-        for gid in genre_ids:
-            genre = db.session.get(Genre, gid)
-            if genre:
-                genres.append(genre)
-
+        genres = book_data.get("genres", [])
 
         new_book = cls(
             title=book_data["title"],
