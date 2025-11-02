@@ -5,7 +5,8 @@ def test_from_dict_returns_book():
     # Arrange
     book_data = {
         "title": "New Book",
-        "description": "The Best!"
+        "description": "The Best!",
+        "genres": []
     }
 
     # Act
