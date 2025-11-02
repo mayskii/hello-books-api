@@ -13,12 +13,15 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from typing import Optional
+from .genre import Genre
+
 from ..db import db
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .author import Author
-    from .genre import Genre
+    # from .genre import Genre
+    
 
 class Book(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
@@ -44,9 +47,17 @@ class Book(db.Model):
     
     @classmethod
     def from_dict(cls, book_data):
-        # Use get() to fetch values that could be undefined to avoid raising an error
+        # author_id = book_data.get("author_id")
+        # genres = book_data.get("genres", [])
+
         author_id = book_data.get("author_id")
-        genres = book_data.get("genres", [])
+        genre_ids = book_data.get("genres", [])
+
+        genres = []
+        for gid in genre_ids:
+            genre = db.session.get(Genre, gid)
+            if genre:
+                genres.append(genre)
 
         new_book = cls(
             title=book_data["title"],
